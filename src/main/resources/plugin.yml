@@ -1,0 +1,11 @@
+name: KitPreview
+version: 2.0-SNAPSHOT
+main: me.enzol.kitspreview.KitsPreview
+api-version: 1.15
+softdepend:
+  - Essentials
+commands:
+  kitpreview:
+    aliases: [previewkit]
+  kiteditpreview:
+    aliases: [editpreview]

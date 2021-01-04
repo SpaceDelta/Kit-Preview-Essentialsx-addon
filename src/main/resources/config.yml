@@ -1,0 +1,11 @@
+sign:
+  lines:
+    1: "&a[KitPreview]"
+    2: "&e{kitname}"
+    3: ""
+    4: ""
+gui:
+  title: "&eKit preview {kit}"
+  items:
+    balance: GOLD_NUGGET
+    commands: COMMAND_BLOCK
