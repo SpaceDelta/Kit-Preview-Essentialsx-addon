@@ -3,7 +3,7 @@ version: 2.1
 main: me.enzol.kitspreview.KitsPreview
 api-version: 1.16
 load: POSTWORLD
-author: Enzol
+author: EnzoL_
 depend:
   - Essentials
 commands:
