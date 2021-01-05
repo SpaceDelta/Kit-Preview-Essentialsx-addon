@@ -60,7 +60,7 @@ public class KitEditPreviewCommand implements CommandExecutor, TabExecutor {
                     return false;
                 }
 
-                KitPreview kitPreview = new KitPreview(kitName, rows, Lists.newArrayList());
+                KitPreview kitPreview = new KitPreview(kitName, rows);
                 Inventory inventory = Bukkit.createInventory(null, 9 * kitPreview.getRows(), "Editing " + kitName);
                 EssentialsUtils.getItems(player, kitName).forEach(inventory::addItem);
                 player.openInventory(inventory);

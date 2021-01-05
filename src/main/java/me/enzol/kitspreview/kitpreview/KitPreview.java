@@ -1,5 +1,6 @@
 package me.enzol.kitspreview.kitpreview;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,7 @@ public class KitPreview {
 
     private String kitName;
     @Setter private int rows;
-    private List<KitItem> items;
+    private final List<KitItem> items = Lists.newArrayList();
 
     public void save(){
         Gson gson = KitsPreview.getGson();

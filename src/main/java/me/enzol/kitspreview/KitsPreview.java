@@ -79,7 +79,7 @@ public class KitsPreview extends JavaPlugin{
                 kitsPreview = getGson().fromJson(new FileReader(this.getDataFolder()
                     + File.separator + kitName + ".json"), KitPreview.class);
             } catch (FileNotFoundException e) {
-                kitsPreview = new KitPreview(kitName, 6, Lists.newArrayList());
+                kitsPreview = new KitPreview(kitName, 6);
             }
 
             KitPreview.getKits().put(kitName.toLowerCase(), kitsPreview);
