@@ -1,8 +1,10 @@
 name: KitPreview
-version: 2.0-SNAPSHOT
+version: 2.1
 main: me.enzol.kitspreview.KitsPreview
-api-version: 1.15
-softdepend:
+api-version: 1.16
+load: POSTWORLD
+author: Enzol
+depend:
   - Essentials
 commands:
   kitpreview:
