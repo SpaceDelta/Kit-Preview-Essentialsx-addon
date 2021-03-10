@@ -1,6 +1,7 @@
 package me.enzol.kitspreview.kitpreview.listeners;
 
 import com.google.common.collect.Lists;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,7 +20,13 @@ public class InventoryListener implements Listener{
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event){
         Player player = (Player)event.getWhoClicked();
-        if(inventorysOpen.contains(player.getUniqueId())) event.setCancelled(true);
+        if(inventorysOpen.contains(player.getUniqueId())) {
+            if (event.getSlot() == 49) {
+                player.chat("/kits");
+            }
+
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler

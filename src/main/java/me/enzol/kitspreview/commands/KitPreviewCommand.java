@@ -8,10 +8,13 @@ import me.enzol.kitspreview.utils.Color;
 import me.enzol.kitspreview.utils.EssentialsUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.*;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,6 +25,17 @@ public class KitPreviewCommand implements CommandExecutor, TabExecutor{
 
     private static KitsPreview plugin = KitsPreview.getInstance();
     private static Configuration config = plugin.getConfig();
+    private final ItemStack backButton;
+
+    public KitPreviewCommand() {
+        ItemStack item = new ItemStack(Material.COMPASS);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(ChatColor.RED + ChatColor.BOLD.toString() + "EXIT");
+        meta.setLore(Collections.singletonList(ChatColor.WHITE + "Return to the kits menu."));
+        item.setItemMeta(meta);
+
+        this.backButton = item;
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args){
@@ -59,6 +73,8 @@ public class KitPreviewCommand implements CommandExecutor, TabExecutor{
         }else {
             kitPreview.getItems().forEach(kitItem -> inventory.setItem(kitItem.getSlot(), kitItem.getItem()));
         }
+
+        inventory.setItem(49, backButton); // SpaceDelta - back button
 
         player.openInventory(inventory);
 
