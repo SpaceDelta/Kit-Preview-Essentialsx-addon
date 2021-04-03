@@ -6,7 +6,7 @@
 
     <groupId>me.enzol.kitspreview</groupId>
     <artifactId>KitsPreview</artifactId>
-    <version>v2.1</version>
+    <version>v2.2</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -54,17 +54,17 @@
         </resources>
         <plugins>
             <plugin>
-                <version>3.6.1</version>
+                <version>3.6.2</version>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>11</source>
+                    <target>11</target>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>1.16.16</version>
+                            <version>1.18.0</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

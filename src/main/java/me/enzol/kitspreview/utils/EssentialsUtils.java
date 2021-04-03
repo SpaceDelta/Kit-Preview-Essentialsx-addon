@@ -8,24 +8,63 @@ import com.earth2me.essentials.textreader.IText;
 import com.earth2me.essentials.textreader.KeywordReplacer;
 import com.earth2me.essentials.textreader.SimpleTextInput;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import me.enzol.kitspreview.KitsPreview;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 import static com.earth2me.essentials.I18n.tl;
 
 public class EssentialsUtils {
 
-    private static Configuration config =  KitsPreview.getInstance().getConfig();
+    private static final Configuration CONFIG =  KitsPreview.getInstance().getConfig();
+    // Start SpaceDelta
+    private static final Map<String, ItemStack> CUSTOM_DEFINITIONS = Maps.newHashMap();
+
+    static  {
+        final ConfigurationSection section = CONFIG.getConfigurationSection("gui.custom-command-display");
+        if (section != null) {
+            section.getKeys(false).forEach(cmd -> {
+                String name = ChatColor.translateAlternateColorCodes('&', section.getString(cmd + ".name"));
+                Material material = Material.getMaterial(section.getString(cmd + ".type").toUpperCase());
+                List<String> lore = section.getStringList(cmd + ".lore").stream()
+                        .map(s -> ChatColor.translateAlternateColorCodes('&', s))
+                        .collect(Collectors.toList());
+
+                // construct
+                ItemStack itemStack = new ItemStack(material);
+                final ItemMeta itemMeta = itemStack.getItemMeta();
+                itemMeta.setDisplayName(name);
+                itemMeta.setLore(lore);
+
+                itemStack.setItemMeta(itemMeta);
+
+                if (section.isConfigurationSection(cmd + ".enchants")) {
+                    final ConfigurationSection enchants = section.getConfigurationSection(cmd + ".enchants");
+                    enchants.getKeys(false)
+                            .forEach(key -> itemStack.addUnsafeEnchantment(Enchantment.getByKey(NamespacedKey.minecraft(key)), enchants.getInt(key)));
+                }
+
+                CUSTOM_DEFINITIONS.put(cmd, itemStack);
+            });
+
+        }
+    }
+    // End SpaceDelta
 
     public static List<ItemStack> getItems(Player player, String kitName){
         Essentials ess = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
@@ -47,7 +86,7 @@ public class EssentialsUtils {
             for(String kitItem : output.getLines()){
                 if(kitItem.startsWith(ess.getSettings().getCurrencySymbol())){
                     BigDecimal value = new BigDecimal(kitItem.substring(ess.getSettings().getCurrencySymbol().length()).trim());
-                    Material balance = Material.matchMaterial(config.getString("gui.items.balance", "GOLD_NUGGET"));
+                    Material balance = Material.matchMaterial(CONFIG.getString("gui.items.balance", "GOLD_NUGGET"));
                     ItemStack money = new ItemStack(balance);
                     ItemMeta moneyMeta = money.getItemMeta();
                     moneyMeta.setDisplayName(ChatColor.GOLD + ess.getSettings().getCurrencySymbol() + value);
@@ -56,16 +95,23 @@ public class EssentialsUtils {
                     continue;
                 }
 
-                if(kitItem.startsWith("/")){
+                if(kitItem.startsWith("/")) {
                     String command = kitItem;
                     String name = user.getName();
-                    command = command.replace("{player}", name);
-                    Material commands = Material.matchMaterial(config.getString("gui.items.commands", "COMMAND_BLOCK"));
-                    ItemStack commandItem = new ItemStack(commands);
-                    ItemMeta commandMeta = commandItem.getItemMeta();
-                    commandMeta.setDisplayName(ChatColor.GREEN + "Command: " + ChatColor.WHITE + command);
-                    commandItem.setItemMeta(commandMeta);
-                    item.add(commandItem);
+                    // Start SpaceDelta
+                    if (CUSTOM_DEFINITIONS.containsKey(command)) {
+                        item.add(CUSTOM_DEFINITIONS.get(command));
+                    } else {
+                        // End SpaceDelta
+                        command = command.replace("{player}", name);
+
+                        Material commands = Material.matchMaterial(CONFIG.getString("gui.items.commands", "COMMAND_BLOCK"));
+                        ItemStack commandItem = new ItemStack(commands);
+                        ItemMeta commandMeta = commandItem.getItemMeta();
+                        commandMeta.setDisplayName(ChatColor.GREEN + "Command: " + ChatColor.WHITE + command);
+                        commandItem.setItemMeta(commandMeta);
+                        item.add(commandItem);
+                    }
                     continue;
                 }
 

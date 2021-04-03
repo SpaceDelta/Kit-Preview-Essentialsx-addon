@@ -1,7 +1,6 @@
 package me.enzol.kitspreview;
 
 import com.earth2me.essentials.Essentials;
-import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
@@ -82,7 +81,7 @@ public class KitsPreview extends JavaPlugin{
                 kitsPreview = new KitPreview(kitName, 6);
             }
 
-            KitPreview.getKits().put(kitName.toLowerCase(), kitsPreview);
+            KitPreview.getKITS().put(kitName.toLowerCase(), kitsPreview);
         });
     }
 

@@ -17,9 +17,9 @@ import java.util.Map;
 @AllArgsConstructor
 public class KitPreview {
 
-    @Getter private static Map<String, KitPreview> kits = Maps.newHashMap();
+    @Getter private static final Map<String, KitPreview> KITS = Maps.newHashMap();
 
-    private String kitName;
+    private final String kitName;
     @Setter private int rows;
     private final List<KitItem> items = Lists.newArrayList();
 
@@ -34,7 +34,7 @@ public class KitPreview {
     }
 
     public static KitPreview getByName(String name){
-        return kits.get(name.toLowerCase());
+        return KITS.get(name.toLowerCase());
     }
 
 }

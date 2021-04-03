@@ -1,7 +1,6 @@
 package me.enzol.kitspreview.kitpreview.listeners;
 
 import com.google.common.collect.Lists;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,12 +14,12 @@ import java.util.UUID;
 
 public class InventoryListener implements Listener{
 	
-    public static List<UUID> inventorysOpen = Lists.newArrayList();
+    public static final List<UUID> OPEN_INVENTORIES = Lists.newArrayList();
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event){
         Player player = (Player)event.getWhoClicked();
-        if(inventorysOpen.contains(player.getUniqueId())) {
+        if(OPEN_INVENTORIES.contains(player.getUniqueId())) {
             if (event.getSlot() == 49) {
                 player.chat("/kits");
             }
@@ -32,14 +31,14 @@ public class InventoryListener implements Listener{
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent event){
         Player player = (Player)event.getWhoClicked();
-        if(inventorysOpen.contains(player.getUniqueId())) event.setCancelled(true);
+        if(OPEN_INVENTORIES.contains(player.getUniqueId())) event.setCancelled(true);
     }
 
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event){
         Player player = (Player)event.getPlayer();
-        if(inventorysOpen.contains(player.getUniqueId())){
-            inventorysOpen.remove(player.getUniqueId());
+        if(OPEN_INVENTORIES.contains(player.getUniqueId())){
+            OPEN_INVENTORIES.remove(player.getUniqueId());
             player.updateInventory();
         }
     }
@@ -47,7 +46,7 @@ public class InventoryListener implements Listener{
     @EventHandler
     public void onQuit(PlayerQuitEvent event){
         Player player = event.getPlayer();
-        inventorysOpen.remove(player.getUniqueId());
+        OPEN_INVENTORIES.remove(player.getUniqueId());
     }
 
 }

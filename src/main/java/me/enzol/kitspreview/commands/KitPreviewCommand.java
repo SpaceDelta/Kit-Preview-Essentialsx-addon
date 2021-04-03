@@ -6,6 +6,7 @@ import me.enzol.kitspreview.kitpreview.listeners.InventoryListener;
 import me.enzol.kitspreview.kitpreview.KitPreview;
 import me.enzol.kitspreview.utils.Color;
 import me.enzol.kitspreview.utils.EssentialsUtils;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -49,7 +50,7 @@ public class KitPreviewCommand implements CommandExecutor, TabExecutor{
 
         if(args.length < 1){
             player.sendMessage(Color.translate( "&bUse&7: "));
-            player.sendMessage(Color.translate("&b/kitpreview (kit name)"));
+            player.sendMessage(Color.translate("&b/kitpreview <kit name>"));
             return false;
         }
 
@@ -66,7 +67,8 @@ public class KitPreviewCommand implements CommandExecutor, TabExecutor{
 
         Inventory inventory = Bukkit.createInventory(null,
             9 * kitPreview.getRows(),
-            Color.translate(config.getString("gui.title").replace("{kit}", kitName)));
+            Color.translate(config.getString("gui.title")
+                    .replace("{kit}", StringUtils.capitalize(kitName)))); // SpaceDelta - capitalize
 
         if(kitPreview.getItems().isEmpty()){
             EssentialsUtils.getItems(player, kitName).forEach(inventory::addItem);
@@ -78,7 +80,7 @@ public class KitPreviewCommand implements CommandExecutor, TabExecutor{
 
         player.openInventory(inventory);
 
-        InventoryListener.inventorysOpen.add(player.getUniqueId());
+        InventoryListener.OPEN_INVENTORIES.add(player.getUniqueId());
 
         return true;
     }
