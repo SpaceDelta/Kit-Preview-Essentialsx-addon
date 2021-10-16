@@ -72,7 +72,7 @@ public class KitsPreview extends JavaPlugin{
 
     private void loadKits(){
         Essentials ess = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
-        ess.getKits().getConfig().getKeys().forEach(kitName -> {
+        ess.getKits().getKitKeys().forEach(kitName -> {
             KitPreview kitsPreview;
             try {
                 kitsPreview = getGson().fromJson(new FileReader(this.getDataFolder()

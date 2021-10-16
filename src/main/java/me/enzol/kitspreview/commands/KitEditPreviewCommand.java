@@ -124,12 +124,12 @@ public class KitEditPreviewCommand implements CommandExecutor, TabExecutor {
                 .collect(Collectors.toList());
         }
         if (args.length == 2) {
-            return new ArrayList<>(ess.getKits().getConfig().getKeys()).stream()
+            return ess.getKits().getKitKeys().stream()
                 .filter(s1 -> s1.toLowerCase().startsWith(args[1]))
                 .collect(Collectors.toList());
         }
         if (args.length == 3) {
-            return new ArrayList<>(ess.getKits().getConfig().getKeys()).stream()
+            return ess.getKits().getKitKeys().stream()
                 .filter(s1 -> s1.toLowerCase().startsWith(args[2]))
                 .collect(Collectors.toList());
         }
