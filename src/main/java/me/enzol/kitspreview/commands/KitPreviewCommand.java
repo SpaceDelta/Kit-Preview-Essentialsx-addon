@@ -90,7 +90,7 @@ public class KitPreviewCommand implements CommandExecutor, TabExecutor{
         Essentials ess = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
 
         if (args.length == 1) {
-            return new ArrayList<>(ess.getKits().getKits().getKeys(false)).stream()
+            return new ArrayList<>(ess.getKits().getConfig().getKeys()).stream()
                 .filter(s1 -> s1.toLowerCase().startsWith(args[0]))
                 .collect(Collectors.toList());
         }
